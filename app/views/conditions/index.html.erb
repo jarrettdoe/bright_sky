@@ -12,32 +12,77 @@
     <% end %>
 
   </div>
+  <!-- Define city as input name -->
+  <% city = params["address"] %>
 
-  <% api_key = '4ce6f502d38ddae567bf1702b05e168c' %>
-  <% weather_json = open("https://api.openweathermap.org/data/2.5/weather?q=Chicago&appid=#{api_key}").read %>
+<% if city != nil %>
+  <% api_key = '39a6af5ee94cbc35e2209a91ef5985d1' %>
+  <% weather_json = open("https://api.openweathermap.org/data/2.5/weather?q=#{city}&units=imperial&type=like&appid=#{api_key}").read %>
   <% weather_data = JSON.parse(weather_json) %>
+  <% weather_desc = weather_data["weather"] %>
+  <% weather_main = weather_data["main"] %>
+  <% weather_wind = weather_data["wind"] %>
+  <% weather_city = weather_data["name"] %>
 
   <div class="col-sm-4">
     <table class="table table-striped table-bordered m-3">
         <tbody>
           <tr>
+            <td> City:</td>
+            <td> <%= weather_city %> </td>
+          </tr>
+          <tr>
             <td>Right Now:</td>
-            <td>Rain</td>
+            <td>
+              <%= weather_desc.first["description"] %>
+            </td>
           </tr>
           <tr>
             <td>Current Temperature:</td>
-            <td>31 degrees</td>
+            <td>
+              <%= weather_main["temp"] %>
+               &deg; F
+            </td>
           </tr>
           <tr>
             <td>Wind:</td>
-            <td>8 mph</td>
+            <td>
+              <%= weather_wind["speed"] %>
+              mph
+            </td>
           </tr>
           <tr>
             <td>Humidity:</td>
-            <td>63%</td>
+            <td>
+              <%= weather_main["humidity"] %>
+              %
+            </td>
           </tr>
         </tbody>
     </table>
   </div>
-
+ <% else %>
+  <div class="col-sm-4">
+    <table class="table table-striped table-bordered m-3">
+      <tbody>
+        <tr>
+          <td>Right Now:</td>
+          <td> Please </td>
+        </tr>
+        <tr>
+          <td>Current Temperature:</td>
+          <td>enter</td>
+        </tr>
+        <tr>
+          <td>Wind:</td>
+          <td>a</td>
+        </tr>
+        <tr>
+          <td>Humidity:</td>
+          <td>city</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+<% end %>
 </div>
